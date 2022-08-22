@@ -1,0 +1,229 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-family: "Roboto", sans-serif;
+}
+
+/* PLEASE NOTE: THE BODY TAG DOES NOT HAVE THE HEIGHT OF YOUR SCREEN BY DEFAULT. ONLY THE WIDTH OF YOUR SCREEN IS THE DEFAULT WIDTH OF THE BODY TAG.*/
+/* PLEASE NOTE: THE BODY (And I believe any parent container) will have a height depending on its children when its child(ren) is not positioned (fixed, relative, absolute).*/
+/* PLEASE NOTE: When an element is the only child of its parent, and it is positioned (fixed, relative, abolute e.t.c.), it will be taken out of normal document flow, and the parent element will not have a height based on its child content */
+/* When a child element is not fixed, it will occupy the content box of its parent, and give the parent a height depending on its content. The parent's width is by default determined by the screen size, and this child will stretch (border) across the entire screen unless positioned */
+/* When the child positioned, it will no longer have the width of its parent */
+
+body {
+  border: 5px solid blue;
+  /* height: 200px; */
+  /* width: 200px; */
+}
+
+/* Go to google and type, google fonts.....click on a font (or multiple fonts), say Roboto....then the size (select this style)...say Regular 400...select import....NOT link......then copy the "CSS rules to specify families"...like font-family: 'Roboto', 'San-serif'.....check if fonts used in the past are present and remove them*/
+/* Go to remixicons.....get started in Github and copy the CDN link and paste in the head in html file */
+
+/* Reusable styles */
+
+/* Recall: Desired / Base for rem(em). Here h1 is 1.5rem, and our base(root) is the default 16px, so its 24px that is the px value of h1 */
+
+/* 0.9 * 16 = 14.4px */
+
+h1 {
+  font-size: 1.5rem;
+}
+
+h4 {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  color: #aaa;
+  margin-left: 20px;
+}
+
+i {
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+/* Different from chaining, descendant, and child. This is for two html tags that have the same css styles */
+p,
+a {
+  font-size: 0.9rem;
+}
+
+hr {
+  border: 1px solid rgba(225, 225, 225, 0.1);
+  margin-left: 12px 0px;
+}
+
+/* Header styles start here */
+
+.header {
+  /* border: 3px solid red; */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #202020;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 25px;
+  padding-right: 40px;
+}
+
+/* We are putting width: 100% here because we have already put position fixed which set its width based on the content. Without the position: fixed, its width will be 100% (body: parent) */
+
+/* What does position fixed do? An element with position: fixed; is positioned relative to the viewport, which means it always stays in the same place even if the page is scrolled. The top, right, bottom, and left properties are used to position the element.*/
+/* Positioniing takes an element out of document flow reletive to its parent container, while the values top, right, left, will move it anywhere relative to the screen */
+/* Top, left, right, without positioning will not produce any result */
+
+/* STATIC */
+/* HTML elements are positioned static by default. Static positioned elements are not affected by the top, bottom, left, and right properties. */
+
+/* RELATIVE */
+/* An element with position: relative; is positioned relative to its normal position. */
+/* In position relative, other content will not be adjusted to fit into any gap left by the element. */
+
+/* ABSOLUTE */
+/* Position Absolute: An element with position: absolute; is positioned relative to the nearest positioned ancestor (instead of positioned relative to the viewport, like fixed).
+ PLEASE NOTE: However; if an absolute positioned element has no positioned ancestors, it uses the document body, and moves along with page scrolling.
+
+ Note: Absolute positioned elements are removed from the normal flow, and can overlap elements.
+*/
+
+/* FIXED */
+/* An element with position: fixed; is positioned relative to the viewport, which means it always stays in the same place even if the page is scrolled. The top, right, bottom, and left properties are used to position the element. */
+/* A fixed element does not leave a gap in the page where it would normally have been located. */
+
+/* STICKY */
+/* An element with position: sticky; is positioned based on the user's scroll position.
+
+ A sticky element toggles between relative and fixed, depending on the scroll position. It is positioned relative until a given offset position is met in the viewport - then it "sticks" in place (like position:fixed).
+
+  Just take it that we always use sticky with top:0
+*/
+
+.logo_img {
+  position: relative;
+  height: 50px;
+  width: 50px;
+  /* border: 3px solid red; */
+}
+
+img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* border: 3px solid blue; */
+}
+
+/* This is the idea */
+/* We ave two divs, one parent, one child */
+/* The parent is relative, and that is normal positioning, we give it a height and width we desire */
+/* Then the child is given position absolute, so its nearest positioned element is the parent. We give it top and left 0, then make its width and height 100% of its parent(i.e 50px) */
+
+#logo_txt {
+  letter-spacing: -1.5px;
+  color: #fff;
+}
+
+.logo {
+  display: flex;
+  /* border: 3px solid red; */
+  align-items: center;
+}
+
+.logo_container {
+  display: flex;
+  /* border: 3px solid blue; */
+  align-items: center;
+}
+
+.search_container {
+  display: flex;
+  align-items: center;
+  /* border: 3px solid red; */
+  flex: 0 1 685px;
+  margin-left: 40px;
+}
+
+.search_container form {
+  position: relative;
+  width: 100%;
+  /* border: 3px solid yellow; */
+}
+
+.search_container input {
+  display: flex;
+  height: 40px;
+  align-items: center;
+  width: 100%;
+  background-color: #121212;
+  border: 1px solid rgba(225, 225, 225, 0.1);
+  padding: 12px;
+  color: #fff;
+  font-size: 1rem;
+}
+
+/* Color in a for will not show until you click inside the input box and type. Its not for the placeholder color */
+
+.search {
+  min-width: 60px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* border: 3px solid blue; */
+  z-index: 20;
+  background-color: #313131;
+  outline: none;
+  border: none;
+  margin-left: 5px;
+  /* border: 2px solid red; */
+}
+
+/* What is min-width? */
+
+/* What is max-width? */
+
+.mic {
+  min-width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  outline: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #181818;
+}
+
+.profile_container {
+  display: flex;
+  align-items: center;
+}
+
+.profile_container i {
+  margin-left: 25px;
+  /* border: 3px solid red; */
+}
+
+.profile-box {
+  position: relative;
+  height: 30px;
+  width: 30px;
+  /* border: 3px solid red; */
+  border-radius: 50%;
+  overflow: hidden;
+  margin-left: 25px;
+}
+
+/* Even with border radius 50%, the image was still to large to contain inside the circle. So you use overflow: hidden */
+
+/* Body styles start here */
+
+/* Body styles end here */
