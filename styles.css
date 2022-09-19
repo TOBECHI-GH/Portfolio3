@@ -14,11 +14,14 @@
 /* When a child element is not fixed, it will occupy the content box of its parent, and give the parent a height depending on its content. The parent's width is by default determined by the screen size, and this child will stretch (border) across the entire screen unless positioned */
 /* When the child positioned, it will no longer have the width of its parent */
 
-body {
+/* Trick: Removed all the main elements (header, main body) from the body tag by using position fixed. So initially, when we start building the main elements, they are inside the body, upon display fixed they are out */
+/* No static main elements yet */
+
+/* body {
   border: 5px solid blue;
-  /* height: 200px; */
-  /* width: 200px; */
-}
+  height: 200px;
+   width: 200px;
+} */
 
 /* Go to google and type, google fonts.....click on a font (or multiple fonts), say Roboto....then the size (select this style)...say Regular 400...select import....NOT link......then copy the "CSS rules to specify families"...like font-family: 'Roboto', 'San-serif'.....check if fonts used in the past are present and remove them*/
 /* Go to remixicons.....get started in Github and copy the CDN link and paste in the head in html file */
@@ -53,10 +56,14 @@ a {
 
 hr {
   border: 1px solid rgba(225, 225, 225, 0.1);
-  margin-left: 12px 0px;
+  margin: 12px 0px;
 }
 
 /* Header styles start here */
+
+/* Take the header out of body and make it reference the viewport by setting its position to fixed */
+
+/* Width 100% of the header is relative to the body, which in turn is relative to the viewport width */
 
 .header {
   /* border: 3px solid red; */
@@ -121,8 +128,13 @@ img {
   /* border: 3px solid blue; */
 }
 
+/* You cannnot inherit width: auto */
+
+/* PLEASE NOTE: Difference between padding and offset (top, botttom, left, right) for an absolute positioned element ?????? */
+/* 100vh will make the element take the entire viewport height */
+
 /* This is the idea */
-/* We ave two divs, one parent, one child */
+/* We have two divs, one parent, one child */
 /* The parent is relative, and that is normal positioning, we give it a height and width we desire */
 /* Then the child is given position absolute, so its nearest positioned element is the parent. We give it top and left 0, then make its width and height 100% of its parent(i.e 50px) */
 
@@ -167,6 +179,7 @@ img {
   padding: 12px;
   color: #fff;
   font-size: 1rem;
+  /* border: 3px solid red; */
 }
 
 /* Color in a for will not show until you click inside the input box and type. Its not for the placeholder color */
@@ -200,6 +213,7 @@ img {
   align-items: center;
   justify-content: center;
   background-color: #181818;
+  margin-left: 5px;
 }
 
 .profile_container {
@@ -225,5 +239,488 @@ img {
 /* Even with border radius 50%, the image was still to large to contain inside the circle. So you use overflow: hidden */
 
 /* Body styles start here */
+/* Body_container: Sidebar plus main content */
 
+/* MAIN TRICK: Set body_container (sidebar and content parent) to position fixed and then use the 100vh property minus the approximate header height*/
+/* Remember that position fixed is relative to the four corners of the viewport  */
+/* Therefore the 60px in top and heigth are related and is the height of the header */
+.body_container {
+  display: flex;
+  position: fixed;
+  background-color: #202020;
+  /* border: 5px solid orange; */
+  top: 60px;
+  left: 0;
+  height: calc(100vh - 60px);
+  /* padding-left: 25px; */
+}
+
+/*
+CALC ()
+
+The calc() CSS function lets you perform calculations when specifying CSS property values.
+It can be used anywhere a <length>, <frequency>, <angle>, <time>, <percentage>, <number>, or <integer> is allowed.
+
++ - / *
+
+*/
+
+/* Sidebar inherits height of body_container */
+
+.sidebar {
+  background-color: #212121;
+  /* border: 2px solid red; */
+  padding-top: 10px;
+  width: 240px;
+  overflow-y: scroll;
+}
+
+.sidebar_items {
+  display: flex;
+  flex-direction: column;
+  /* border: 2px solid green; */
+}
+
+.sidebar a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Any text in an anchor tag (without the normal txt tags like p, h2) can only be targeted with the a tag, not a class on the a tag */
+
+.sidebar_item {
+  display: flex;
+  align-items: center;
+  /* border: 1px solid blue; */
+  cursor: pointer;
+  height: 40px;
+  padding: 0 25px;
+}
+
+.sidebar_item:hover {
+  background-color: #4c4c4c;
+}
+
+.sidebar_item i {
+  margin-right: 24px;
+}
+/* You can actually set the height of a flex container */
+
+/* Scrollbar styles start */
+
+::-webkit-scrollbar {
+  width: 8px;
+  /* background-color: grey; */
+}
+
+/* The moment you add ::-webkit-scrollbar, the track becomes transparent */
+
+::-webkit-scrollbar-track {
+  background: none;
+}
+
+/* What exactly is the none value....w.r.t. background */
+/* A none value does not cascade or overide a similar property */
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 5px;
+}
+
+.sidebar:hover::-webkit-scrollbar-thumb {
+  background: #717171;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+/* PLEASE NOTE: There are no descendants when using pseudo-selectors (psudo-classes/elements), so no space between them even for chaining hovers and scrollbar */
+
+/* Webkit-scrollbar-thumb: This is the inside capsule   */
+/* Webkit-scrollbar-track: This is the outside capsule housing the thumb*/
+
+/* Scrollbar styles end */
+
+/* Main content styles start */
+
+.content {
+  width: calc(100vw - 240px);
+  /* border: 5px solid blue; */
+}
+
+.chips_wrapper {
+  overflow-x: scroll;
+  background-color: #181818;
+  /* border: 5px solid red; */
+  display: flex;
+  padding-left: 14px;
+  padding-right: 15px;
+  border-top: 1px solid rgba(225, 225, 225, 0.1);
+  border-bottom: 1px solid rgba(225, 225, 225, 0.1);
+}
+
+/* PLEASE NOTE: If you have multiple block elements (like divs) inside a parent div (without flex), the multiple children divs will have a width the size of their parent div, and a height the size of the individual content. But when the parent div is flexed, the multiple children divs will have a width the size of their INDIVIDUAL content, AND ALL (everyone) will have a height the size of the longest content, NOT their individual height.  */
+
+.chip {
+  border: 1px solid rgba(25, 9, 9, 0.1);
+  margin: 12px 6px;
+  background-color: #373737;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 16px;
+  white-space: nowrap;
+  /* border: 1px solid red; */
+  color: #fff;
+  transition: 0.5s;
+}
+
+.chips_wrapper::-webkit-scrollbar {
+  height: 0px;
+}
+
+.chip:hover {
+  background-color: #4d4d4d;
+}
+
+/* WHITESPACE : https://www.w3.org/TR/css-text-3/#white-space-property */
+
+/* Think of spaces line, breaks, and tabs */
+
+/* The reason we use flexbox instead of inline block for horizontal layout of elements is partly because of whitespacing */
+
+/* What exactly are whitespaces: Whitespace refers to characters which are used to provide horixontal or vertical space between other characters. Whitespace is often used to separate tokens in computer languages (HTML, CSS, Javascript e.t.c.)
+
+The presence of whitespace in the DOM can cause layout problems and make manipulation of the content tree difficult
+
+Whitespace is any string of text composed only only of spaces, tabs or line breaks
+
+These characters allow you to format your code in a way that will make it easily readable by yourself and other people.
+
+In fact, much of our source code is full of these whitespace characters, and we only tend to get rid of it in production build step to reduce code download sizes
+
+In the case of HTML, whitespace is largely ignored. Whitespace in between words is treated as a single character, whitespace at the start and end of elements and outside elements is ignored. Creating space around and inside elements is the job of CSS.
+
+HOW DOES CSS PROCESS WHITESPACE: Most whitespace characters are ignored, not all of them are.
+
+CSS whitespace property decide which whitespace characters are useful and which are not
+
+VALUES
+
+normal | pre | nowrap | pre-wrap | break-spaces | pre-line
+
+The css whitespace property specifies two things
+
+(A) whether and how white space is collapsed
+(B) whether lines may wrap at unforced soft wrap opportunities
+
+(1) Normal : This value directs user agents to collapse sequences of white space into a single character (or in some cases, no character). Lines may wrap to minimize inline-axis overflow
+
+(2) Pre : This value prevents user agents from collapsing sequences of white spacing. Lines only break at forced line breaks. Content that does not fit within the block container overflows it.
+
+(3) Nowrap : Like 'normal', this value collapses white space; but like 'pre', it does not allow wrapping.
+
+(4) Pre-wrap : Like 'pre', this value preserves white space; but like 'normal', it allows wrapping
+*/
+
+/*
+            New lines     Spaces and tabs   Text wrappping    End-of-line spaces     End-of-line (other space separators)
+
+"normal"    Collapse      Collapse          Wrap              Remove                 Hang
+
+"pre"       Preserve      Preserve          No wrap           Preserve               No wrap
+
+"nowrap"    Collapse      Collapse          No wrap           Remove                 Hang
+
+"break      Preserve      Preserve          Wrap              Wrap                   Wrap
+-spaces"
+
+"pre-line"  Preserve      Collapse          Wrap              Remove                 Hang
+
+"pre-wrap"  Preserve      Preserve          Wrap              Hang                   Hang
+*/
+
+/* Whitespace property -- The white-space property specifies how white-space inside an element is handled. */
+/* White-space:nowrap */
+
+/* Video content styles */
+
+.video_container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  padding: 20px 25px;
+  background-color: #181818;
+  /* border: 5px solid purple; */
+  overflow-y: scroll;
+  height: calc(100vh - 116px);
+  /* max-height: fit-content; */
+}
+
+/* PROBLEM: Number of grid items are not enough for the height of the container, so there were space with only 8 items
+
+ SOLUTION: I added 4 more items.....max-width:fit-content will not allow scroll-y even though there*/
+
+/* Extra padding on the right for vide0_container is from the gap property */
+
+/* We cut off 20px of the padding right using the calc (100vw -240px) leaving just 5px. Normally, the side bar is approximately 260px.  */
+/* Why is display grid giving grid items a padding-bottom in full screen*/
+
+/* What is the width of flex and grid items??? */
+
+.video_content_cover {
+  position: relative;
+  /* border: 5px solid brown; */
+  height: 100%;
+  transition: 0.5s;
+  transition-delay: 0.05s;
+  /* padding: 0px !important; */
+}
+
+.video_content_cover:hover {
+  transform: translateY(43px);
+  z-index: 999;
+}
+
+/* 47px */
+
+.video_content_cover:nth-child(4n + 1):hover {
+  transform: translate(48px, 43px);
+  z-index: 999;
+}
+
+/* 48px, 47px */
+
+.video_content_cover:nth-child(4n + 4):hover {
+  transform: translate(-48px, 43px);
+  z-index: 999;
+}
+
+/* -48px, 60px */
+
+.video_content {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  position: relative;
+  transition: 0.5s;
+  width: 100%;
+  /* border: 3px solid yellow; */
+}
+
+.video_content:hover {
+  transform: scale(1.3);
+  z-index: 5;
+  position: absolute;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: #202020;
+}
+
+.video_content:hover .video_details {
+  background-color: #202020;
+  padding: 10px;
+}
+
+.video_box {
+  position: relative;
+  width: auto;
+  height: 145px;
+  display: block;
+  /* border: 5px solid purple; */
+  cursor: pointer;
+}
+
+.channel-logo {
+  position: relative;
+  min-width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  overflow: hidden;
+  /* border: 5px solid blue; */
+}
+
+.video_content:hover .channel-logo {
+  min-width: 25px;
+  height: 25px;
+}
+
+.video_details {
+  display: flex;
+  color: #fff;
+  /* border: 3px solid orange; */
+  padding-top: 12px;
+}
+
+.details {
+  margin-left: 12px;
+}
+
+.title {
+  font-size: 0.95rem;
+}
+
+.video_content:hover .title {
+  font-size: 0.85rem;
+}
+
+.channel_name {
+  font-size: 0.8rem;
+  margin-top: 10px;
+  color: #aaa;
+}
+
+.views_upload {
+  display: flex;
+  /* border: 2px solid red; */
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+.video_content:hover .views_upload {
+  font-size: 0.65rem;
+}
+
+.upload {
+  margin-left: 5px;
+}
+
+.hidden_content {
+  display: none;
+  padding: 5px 10px;
+  background-color: #181818;
+}
+
+.video_content:hover .hidden_content {
+  display: block;
+  background-color: #202020;
+}
+
+/* To see an parent element that has been set to display none, use the display block property */
+/* PLEASE NOTE: Note the technique used here. Notice they did not add the btn class to the hidden_content parent */
+
+.btn {
+  padding: 5px 0px;
+  color: #aaa;
+  text-transform: uppercase;
+  background-color: #373737;
+  width: 100%;
+  text-align: center;
+  margin: 5px 0px;
+  font-size: 0.65rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Notice display flex was used for an icon and just raw content */
+
+.btn i {
+  font-size: 0.7rem;
+  margin-right: 5px;
+  color: #aaa;
+}
+
+/* Responsive design starts here */
+
+@media (max-width: 1400px) {
+  .sidebar {
+    width: 70px;
+    overflow-x: hidden;
+  }
+
+  .more {
+    display: none;
+  }
+
+  .content {
+    width: calc(100vw - 70px);
+    /* border: 1px solid blue; */
+  }
+}
+
+@media (max-width: 1140px) {
+  .video_container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 930px) {
+  .video_container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 675px) {
+  .video_container {
+    grid-template-columns: 1fr;
+  }
+
+  .search_container {
+    display: none;
+  }
+
+  .ri-grid-fill {
+    display: none;
+  }
+
+  .video_container {
+    gap: 10px;
+    padding: 10px;
+  }
+}
+
+/* What is overflow hidden? */
+
+/* NOTE: min-width and max-width override the width property */
+
+/* Default width value is auto: Browser calculates the width */
+
+/* DISPLAY: display: hidden and none */
+/* VISIBILITY: visibility: hidden and none */
+
+/* Main content styles end */
 /* Body styles end here */
+
+/* PROBLEM: image in a width auto container */
+/* ACTUAL PROBLEM: Te 145px height for the video_box class is too small even for object-fit:cover to fil. All images have height of >230. */
+/* SOLUTION: Increase height to 175px */
+
+/* Without display block for the a tag (an inline element) here, the width and height css will not work. Recall a block element (e.g. div) will automatically take up the width of its parent and height of its content*/
+/* An anchor tag (a) has a default left and right padding */
+
+/* MAIN PRBLEM IS .video_content_cover */
+
+/* NOTE: Below, the absolute position bring the .video_content box in front of any to boxes */
+/* RECALL: Z-index will not work with position static (default), so you must change it to something like relative, absolute, fixed, sticky e.t.c.
+
+In HTML, an element that sits at the bottom of a container will be positioned
+above the preceding elements
+
+::after pseudo-element will appear in the top of the layout by default
+
+*/
+
+/* The idea is that as I hover, I increase the stacking order of that card with absolute and transform and z-index */
+
+/* Whenever you see z-index with large number, just know that they are trying to reverse the stacking order. I.e in the HTML tree, they are trying to stack line 4 on top of line 5 */
+
+/* Recall: Scale(1.5) will transform *1.5 in both x and y axis */
+/* RECALL: transform will create a stacking context, same will all position values other than static */
+/* On hover, this animation (transform) should last for 0.5s. Transition-delay is how long you wait before the transition starts */
+
+/* TRICK
+
+RECALL: Position: relative is positioning relative to the normal position.
+
+You can always use position relative to POSITION large images back to where they belong in the HTML flow together with width and height property on the div housing them.
+
+This is what we did in .video_box and .channel-log
+
+a tags are inline, so we use display block
+
+*/
+
+/* PLEASE NOTE: The two most powerful tools in debugging CSS are (1) Borders (2) Position: relative */
+
+/* a tag is an inline element, so we set its display to block */
+/* TRICK: If you see an image elongating, it means that it's width is restricted. Therefore, use the MIN-WIDTH property */
